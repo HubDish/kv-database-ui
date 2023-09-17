@@ -1,7 +1,10 @@
 import {useState, useEffect} from 'react';
 import {Box, Autocomplete, Tooltip, TextField} from '@mui/material';
 
-export default function BenchmarkSelector({benchmarkList, onBenchmarkChange}) {
+const BenchmarkSelector = ({
+  benchmarkList, 
+  onBenchmarkChange
+}) => {
   const [benchmark, setBenchmark] = useState(benchmarkList[0]);
 
   return (
@@ -14,7 +17,6 @@ export default function BenchmarkSelector({benchmarkList, onBenchmarkChange}) {
         onBenchmarkChange && onBenchmarkChange(newValue.label);
       }}
       sx = {{
-        width: 500,
         marginTop: 4
       }}
       getOptionLabel={(option) => option.label}
@@ -41,3 +43,5 @@ export default function BenchmarkSelector({benchmarkList, onBenchmarkChange}) {
     />
   )
 }
+
+export default BenchmarkSelector;

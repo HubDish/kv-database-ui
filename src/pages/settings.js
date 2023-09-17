@@ -1,15 +1,18 @@
 import {useState, useEffect} from 'react';
 import {Typography, Card, CardContent} from '@mui/material';
 import BenchmarkSelector from '@/components/benchmark-selector';
+import UploadOptions from '@/components/upload-options';
 import getURL from '../constants/getURL';
 
-export default function Settings() {
+const Settings = () => {
   const [benchmark, setBenchmark] = useState();
   const [benchmarkList, setBenchmarkList] = useState(false);
+  const [optionsUploaded, setOptionsUploaded] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [optionsList, setOptionsList] = useState(false);
 
   const handleBenchmarkChange = (value) => setBenchmark(value);
+  const handleOptionsUploaded = () => setOptionsUploaded(true);
 
   const getBenchmarkList = () => {
     fetch(getURL().GET_AVAIL_BENCHMARKS)
@@ -48,14 +51,19 @@ export default function Settings() {
   return (
     <Card variant="outlined">
       <CardContent>
-        <Typography variant="h5">Settings & Options</Typography>
+        <Typography variant="h5">Settings</Typography>
         {benchmarkList && 
           <BenchmarkSelector
             benchmarkList={benchmarkList}
             onBenchmarkChange={handleBenchmarkChange}
           />
         }
+        <UploadOptions
+          onOptionsUpload={handleOptionsUploaded}
+        />
       </CardContent>
     </Card>
   )
 }
+
+export default Settings;

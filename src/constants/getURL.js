@@ -4,6 +4,7 @@ export default function getURL(){
     return {
         GET_STATISTICS: `${prefix}/get-statistics`,
         GET_AVAIL_BENCHMARKS: `${prefix}/get-avail-benchmarks`,
-        GET_AVAIL_OPTIONS: `${prefix}/get-avail-options`
+        GET_AVAIL_OPTIONS: `${prefix}/get-avail-options`,
+        UPLOAD_OPTIONS_FILE: `${prefix}/upload-options-file`
     }
 }
