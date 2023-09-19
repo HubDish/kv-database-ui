@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {Button, Card, Stack, IconButton, InputLabel} from '@mui/material';
+import {Card, Stack, IconButton, InputLabel} from '@mui/material';
 import {FileUpload, FilePresent} from '@mui/icons-material';
 import getURL from '../constants/getURL';
 
@@ -17,18 +17,12 @@ const FileDisplay = ({
         color="primary"
         sx={{fontSize:200}}
       />
-      <Stack 
-        direction="Row"
-      >
-
-      </Stack>
     </Stack>
   );
 };
 
 const UploadOptions = ({
   onOptionsUpload,
-  runBenchmark
 }) => {
   const [selectedFile, setSelectedFile] = useState();
 
@@ -90,8 +84,6 @@ const UploadOptions = ({
       </Stack>
       <Card
         variant="outlined"
-        alignItems="center"
-        justifyContent="center"
         sx={{
           height: 200,
           textAlign: "center"
@@ -101,8 +93,7 @@ const UploadOptions = ({
         {selectedFile ? 
           <FileDisplay file={selectedFile}/>
           :
-          <InputLabel 
-            variant="body1" 
+          <InputLabel
             sx={{
               paddingTop: 10
             }}
@@ -111,11 +102,6 @@ const UploadOptions = ({
           </InputLabel>
         }
       </Card>
-      {selectedFile ? 
-        <Button variant="contained" onClick=>Run Benchmark</Button>
-        :
-        <Button disabled variant="contained">Run Benchmark</Button>
-      }
     </Stack>
   )
 };

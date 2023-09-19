@@ -10,6 +10,7 @@ const BenchmarkSelector = ({
   return (
     <Autocomplete
       id="select-benchmark"
+      disableClearable
       options={benchmarkList}
       value={benchmark}
       onChange={(event, newValue) => {
@@ -19,13 +20,13 @@ const BenchmarkSelector = ({
       sx = {{
         marginTop: 4
       }}
-      getOptionLabel={(option) => option.label}
+      getOptionLabel={(option) => option.description}
       isOptionEqualToValue={(option, value) => option.label === value.label}
       renderOption={(props, option) => {
         return(
-          <Tooltip title={option.description} {...props}>
+          <Tooltip title={option.label} {...props}>
             <Box>
-              {option.label}
+              {option.description}
             </Box>
           </Tooltip>
         )

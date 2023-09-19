@@ -2,29 +2,33 @@ import {useState, useEffect} from 'react'
 import {Typography, Box} from '@mui/material'
 import getURL from '@/constants/getURL'
 import Settings from './settings';
+import Statistics from './statistics';
+import Advice from './advice';
 
 export default function Home() {
-  const [output, setOutput] = useState();
+  const [benchmarkOutput, setBenchmarkOutput] = useState("");
 
-  const handleSubmit = () => {
+  const runBenchmark = () => {
     fetch(getURL().GET_STATISTICS)
       .then((response) => response.json())
       .then((data) => {
-        setOutput(data);
+        setBenchmarkOutput(data);
       })
       .catch((err) => {
         console.log(err.message);
       });
-  }
+    }
 
   return (
     <Box
       sx={{
         border: 0,
         display: 'grid',
+        paddingLeft: 4,
+        paddingRight: 4
       }}
     >
-      <Typography variant="h2">Key-value Database Visualisation</Typography>
+      <Typography variant="h2">Key-value Database Visualisation (RocksDB)</Typography>
       <Box
         sx={{
           marginTop: 2,
@@ -32,7 +36,15 @@ export default function Home() {
           gridTemplateColumns: 'repeat(3, 1fr)'
         }}
       >
-        <Settings/>
+        <Settings
+          runBenchmark={runBenchmark}
+        />
+        <Statistics
+          output={benchmarkOutput}
+        />
+        <Advice
+          output={""}
+        />
       </Box>
       {/* <Button variant='contained' onClick={handleSubmit}>Hello World</Button>
       <Card variant='outlined'>{output}</Card> */}

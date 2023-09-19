@@ -1,10 +1,12 @@
 import {useState, useEffect} from 'react';
-import {Typography, Card, CardContent} from '@mui/material';
+import {Button, Typography, Card, CardContent} from '@mui/material';
 import BenchmarkSelector from '@/components/benchmark-selector';
 import UploadOptions from '@/components/upload-options';
 import getURL from '../constants/getURL';
 
-const Settings = () => {
+const Settings = ({
+  runBenchmark
+}) => {
   const [benchmark, setBenchmark] = useState();
   const [benchmarkList, setBenchmarkList] = useState(false);
   const [optionsUploaded, setOptionsUploaded] = useState(false);
@@ -38,18 +40,17 @@ const Settings = () => {
       });
     }
   
+  const onClickRun = () => {
+    runBenchmark && runBenchmark();
+  };
 
   useEffect(() => {
     getBenchmarkList();
     getOptionsList();
   }, []);
 
-  useEffect(() => {
-    console.log(benchmark);
-  }, [benchmark]);
-
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={{height:"85vh"}}>
       <CardContent>
         <Typography variant="h5">Settings</Typography>
         {benchmarkList && 
@@ -61,6 +62,12 @@ const Settings = () => {
         <UploadOptions
           onOptionsUpload={handleOptionsUploaded}
         />
+        <br/><br/>
+        {optionsUploaded ? 
+          <Button variant="contained" onClick={onClickRun}>Run Benchmark</Button>
+          :
+          <Button disabled variant="contained">Run Benchmark</Button>
+        }
       </CardContent>
     </Card>
   )
