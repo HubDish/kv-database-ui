@@ -2,14 +2,16 @@ import {useState, useEffect} from 'react';
 import {Card, Stack, IconButton, InputLabel} from '@mui/material';
 import {FileUpload, FilePresent} from '@mui/icons-material';
 import getURL from '../constants/getURL';
+import moment from 'moment';
 
 const FileDisplay = ({
   file
 }) => {
+  console.log(file);
 
   return(
     <Stack
-      direction="column"
+      direction="row"
       alignItems="center"
       justifyContent="center"
     >
@@ -17,6 +19,20 @@ const FileDisplay = ({
         color="primary"
         sx={{fontSize:200}}
       />
+      <Stack
+        alignItems="start"
+        justifyContent="start"
+      > 
+        <InputLabel sx={{marginBottom:1}}>
+          File Name: {file.name}
+        </InputLabel>
+        <InputLabel sx={{marginBottom:1}}>
+          Last Modified Date: {moment(file.lastModifiedDate).format('DD/MM/YYYY hh:mm:ss A')}
+        </InputLabel>
+        <InputLabel>
+          Size: {file.size}B
+        </InputLabel>
+      </Stack>
     </Stack>
   );
 };
@@ -89,7 +105,6 @@ const UploadOptions = ({
           textAlign: "center"
         }}
       > 
-        {/* <FileDisplay/> */}
         {selectedFile ? 
           <FileDisplay file={selectedFile}/>
           :

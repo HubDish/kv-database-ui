@@ -41,7 +41,7 @@ const Settings = ({
     }
   
   const onClickRun = () => {
-    runBenchmark && runBenchmark();
+    runBenchmark && runBenchmark(benchmark);
   };
 
   useEffect(() => {
