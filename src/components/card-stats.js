@@ -1,8 +1,7 @@
-import {Bar} from 'react-chartjs-2';
-import {Card, Stack, CardContent, Typography, Box} from '@mui/material';
+import {Card, Stack, CardContent, Typography} from '@mui/material';
 
 const CardStats = ({
-  Data
+  data
 }) => {
 
   return (
@@ -12,8 +11,8 @@ const CardStats = ({
           alignItems="center"
           justifyContent="center"
         >
-          <Typography variant="body1" sx={{borderBottom: 2, marginBottom: 1}}>{Data.title}</Typography>
-          <Typography variant="body1">{Data.value.toLocaleString("en-US")}</Typography>
+          <Typography variant="body1" gutterBottom sx={{borderBottom: 2}}>{data.title}</Typography>
+          <Typography variant="body1">{data.value.toLocaleString("en-US")}</Typography>
         </Stack>
       </CardContent>
     </Card>

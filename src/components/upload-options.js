@@ -7,8 +7,6 @@ import moment from 'moment';
 const FileDisplay = ({
   file
 }) => {
-  console.log(file);
-
   return(
     <Stack
       direction="row"

@@ -5,6 +5,7 @@ import UploadOptions from '@/components/upload-options';
 import getURL from '../constants/getURL';
 
 const Settings = ({
+  isLoading,
   runBenchmark
 }) => {
   const [benchmark, setBenchmark] = useState();
@@ -33,7 +34,6 @@ const Settings = ({
       .then((response) => response.json())
       .then((data) => {
         setOptionsList(data);
-        console.log(data.DBOptions[0].description);
       })
       .catch((err) => {
         console.log(err.message);
@@ -63,10 +63,10 @@ const Settings = ({
           onOptionsUpload={handleOptionsUploaded}
         />
         <br/><br/>
-        {optionsUploaded ? 
-          <Button variant="contained" onClick={onClickRun}>Run Benchmark</Button>
+        {(optionsUploaded && !(isLoading)) ? 
+          <Button fullWidth variant="contained" onClick={onClickRun}>Run Benchmark</Button>
           :
-          <Button disabled variant="contained">Run Benchmark</Button>
+          <Button fullWidth disabled variant="contained">Run Benchmark</Button>
         }
       </CardContent>
     </Card>

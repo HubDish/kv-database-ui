@@ -1,21 +1,30 @@
-import {useState, useEffect} from 'react';
-import {Typography, Card, CardContent, TextField} from '@mui/material';
+import {Box, CardContent} from '@mui/material';
+import CardAdvice from '@/components/card-advice';
 
 const Advice = ({
   output
 }) => {
 
   return (
-    <CardContent>
-      <TextField
-        disabled
-        multiline
-        fullWidth
-        value={output}
-        sx={{
-          marginTop: 4
-        }}
-      />
+    <CardContent
+      sx={{
+        height: "75vh",
+        overflowY: "scroll"
+      }}
+    >
+      <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(1, 1fr)'
+          }}
+        >
+          {output.map((rule) => (
+            <CardAdvice
+              key={rule.rule}
+              rule={rule}
+            />
+          ))}
+        </Box>
     </CardContent>
   )
 }

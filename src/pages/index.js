@@ -1,14 +1,17 @@
 import {useState, useEffect} from 'react'
-import {Typography, InputLabel, Card, Box, Tabs, Tab} from '@mui/material'
+import {Typography, InputLabel, Card, Box, Tabs, Tab, Snackbar, Alert, AlertTitle, CircularProgress} from '@mui/material'
 import getURL from '@/constants/getURL'
 import Settings from './settings';
-import Statistics from './statistics';
+import Statistics from './statistics/statistics';
 import Advice from './advice';
 
 const Home = () => {
   const [tabValue, setTabValue]= useState(0);
   const [benchmarkOutput, setBenchmarkOutput] = useState("");
   const [advisorOutput, setAdvisorOutput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const runAdvisor = (db_path) => {
     fetch(getURL().GET_ADVICE+"?db_path="+db_path)
@@ -22,18 +25,38 @@ const Home = () => {
     }
 
   const runBenchmark = (benchmark) => {
+    setIsLoading(true);
+    setBenchmarkOutput("");
+    setAdvisorOutput("");
     fetch(getURL().GET_STATISTICS+"?benchmark="+benchmark)
       .then((response) => response.json())
       .then((data) => {
-        setBenchmarkOutput(data);
+        if (data.error){
+          setShowError(true);
+          setErrorMessage(data.message);
+        } else {
+          setBenchmarkOutput(data);
+          runAdvisor(data.db_path);
+        }
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err.message);
+        setIsLoading(false);
       });
     }
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
+  };
+
+  const handleCloseMessage = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setShowError(false);
+    setErrorMessage("");
   };
 
   return (
@@ -57,6 +80,7 @@ const Home = () => {
       >
         <Box sx={{gridArea: 'setting'}}>
           <Settings
+            isLoading={isLoading}
             runBenchmark={runBenchmark}
           />
         </Box>
@@ -82,7 +106,18 @@ const Home = () => {
               <Tab label="Advisor" value={1}/>
             }
           </Tabs>
-          {tabValue === 0 && benchmarkOutput === "" && (
+          {isLoading && (
+            <Box 
+              sx={{ 
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <CircularProgress size={100} sx={{marginTop: 50}}/>
+            </Box>
+          )}
+          {benchmarkOutput === "" && !(isLoading) && (
             <InputLabel
               sx={{
                 paddingTop: 10,
@@ -92,20 +127,24 @@ const Home = () => {
               Run Benchmark to View Statistics
             </InputLabel>
           )}
-          {tabValue === 0 && benchmarkOutput !== "" && (
+          {tabValue === 0 && benchmarkOutput !== "" && !(isLoading) && (
             <Statistics
               output={benchmarkOutput}
             />
           )}
-          {tabValue === 1 && (
+          {tabValue === 1 && advisorOutput !== "" && !(isLoading) && (
             <Advice
-              output={''}
+              output={advisorOutput}
             />
           )}
         </Card>
       </Box>
-      {/* <Button variant='contained' onClick={handleSubmit}>Hello World</Button>
-      <Card variant='outlined'>{output}</Card> */}
+      <Snackbar open={showError} autoHideDuration={6000} onClose={handleCloseMessage}>
+        <Alert onClose={handleCloseMessage} severity="error" sx={{ width: '100%', whiteSpace: 'pre-line' }}>
+          <AlertTitle>An error has occurred!</AlertTitle>
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }
