@@ -11,8 +11,6 @@ const Settings = ({
   const [benchmark, setBenchmark] = useState();
   const [benchmarkList, setBenchmarkList] = useState(false);
   const [optionsUploaded, setOptionsUploaded] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState({});
-  const [optionsList, setOptionsList] = useState(false);
 
   const handleBenchmarkChange = (value) => setBenchmark(value);
   const handleOptionsUploaded = () => setOptionsUploaded(true);
@@ -28,17 +26,6 @@ const Settings = ({
         console.log(err.message);
       });
     }
-    
-  const getOptionsList = () => {
-    fetch(getURL().GET_AVAIL_OPTIONS)
-      .then((response) => response.json())
-      .then((data) => {
-        setOptionsList(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-    }
   
   const onClickRun = () => {
     runBenchmark && runBenchmark(benchmark);
@@ -46,7 +33,6 @@ const Settings = ({
 
   useEffect(() => {
     getBenchmarkList();
-    getOptionsList();
   }, []);
 
   return (
